@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verumdoc — Gestão de Documentos Médicos</title>
+  <meta name="description" content="Verumdoc digitaliza e centraliza o processo de afastamentos médicos da sua empresa. App mobile + painel RH integrados."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --blue-900:#042C53;--blue-800:#0C447C;--blue-600:#185FA5;
+      --blue-400:#378ADD;--blue-100:#B5D4F4;--blue-50:#E6F1FB;
+      --green:#1D9E75;--gray-50:#F7F7F5;--gray-200:#B4B2A9;
+      --text:#1A1A1A;--text2:#4A4A4A;--text3:#6B6B6B;
+    }
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:#fff;-webkit-font-smoothing:antialiased}
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-bottom:0.5px solid rgba(0,0,0,0.08);padding:0 5%}
+    .nav-inner{max-width:1100px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo-icon{width:36px;height:36px;background:var(--blue-600);border-radius:10px;display:flex;align-items:center;justify-content:center}
+    .logo-icon svg{width:20px;height:20px}
+    .logo-name{font-family:'DM Serif Display',serif;font-size:20px;color:var(--blue-900)}
+    .logo-name span{color:var(--blue-600)}
+    .nav-links{display:flex;align-items:center;gap:28px;font-size:14px;font-weight:500;color:var(--text2)}
+    .nav-links a:hover{color:var(--blue-600)}
+    .btn-nav{background:var(--blue-600);color:#fff;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:600;transition:background 0.15s}
+    .btn-nav:hover{background:var(--blue-800)}
+
+    /* HERO */
+    .hero{background:var(--blue-900);padding:100px 5% 80px;text-align:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(55,138,221,0.2);color:var(--blue-100);font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;margin-bottom:28px;letter-spacing:0.04em}
+    .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,5vw,58px);color:#fff;line-height:1.15;margin-bottom:20px;max-width:740px;margin-left:auto;margin-right:auto}
+    .hero h1 span{color:var(--blue-400)}
+    .hero p{font-size:18px;color:var(--blue-100);line-height:1.7;max-width:560px;margin:0 auto 40px}
+    .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn-primary{background:var(--blue-400);color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;transition:background 0.15s}
+    .btn-primary:hover{background:var(--blue-600)}
+    .btn-ghost{border:1px solid rgba(255,255,255,0.3);color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;transition:all 0.15s}
+    .btn-ghost:hover{background:rgba(255,255,255,0.08)}
+    .hero-sub{margin-top:20px;font-size:13px;color:var(--blue-100);opacity:0.6}
+
+    /* LOGOS CLIENTES */
+    .clients{padding:40px 5%;border-bottom:0.5px solid rgba(0,0,0,0.07)}
+    .clients-inner{max-width:900px;margin:0 auto;text-align:center}
+    .clients p{font-size:12px;font-weight:600;color:var(--gray-200);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px}
+    .clients-logos{display:flex;gap:40px;justify-content:center;align-items:center;flex-wrap:wrap;opacity:0.4}
+    .client-logo{font-size:18px;font-weight:700;color:var(--text3);letter-spacing:-0.5px}
+
+    /* COMO FUNCIONA */
+    section{padding:80px 5%}
+    .section-inner{max-width:1100px;margin:0 auto}
+    .tag{display:inline-block;font-size:11px;font-weight:600;color:var(--blue-600);background:var(--blue-50);padding:4px 12px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px}
+    h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,3.5vw,40px);line-height:1.2;margin-bottom:16px;color:var(--text)}
+    .section-sub{font-size:16px;color:var(--text3);line-height:1.7;max-width:520px}
+
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:48px}
+    .step{background:var(--gray-50);border-radius:14px;padding:24px;border:0.5px solid rgba(0,0,0,0.06)}
+    .step-num{width:36px;height:36px;background:var(--blue-600);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;margin-bottom:16px}
+    .step h3{font-size:15px;font-weight:600;margin-bottom:8px}
+    .step p{font-size:13px;color:var(--text3);line-height:1.65}
+
+    /* FEATURES */
+    .features-bg{background:var(--gray-50);border-top:0.5px solid rgba(0,0,0,0.07);border-bottom:0.5px solid rgba(0,0,0,0.07)}
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:48px}
+    .feature{background:#fff;border-radius:14px;padding:24px;border:0.5px solid rgba(0,0,0,0.07)}
+    .feature-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+    .feature h3{font-size:15px;font-weight:600;margin-bottom:8px}
+    .feature p{font-size:13px;color:var(--text3);line-height:1.65}
+
+    /* PLANOS */
+    .plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:48px;max-width:860px}
+    .plan{border-radius:16px;padding:28px;border:0.5px solid rgba(0,0,0,0.1)}
+    .plan.featured{background:var(--blue-900);border-color:var(--blue-600)}
+    .plan-badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:16px;background:var(--blue-50);color:var(--blue-800)}
+    .plan.featured .plan-badge{background:rgba(55,138,221,0.2);color:var(--blue-100)}
+    .plan h3{font-size:18px;font-weight:600;margin-bottom:4px}
+    .plan.featured h3{color:#fff}
+    .plan-price{font-family:'DM Serif Display',serif;font-size:36px;margin:16px 0 4px;color:var(--text)}
+    .plan.featured .plan-price{color:#fff}
+    .plan-period{font-size:13px;color:var(--text3);margin-bottom:20px}
+    .plan.featured .plan-period{color:var(--blue-100)}
+    .plan-features{list-style:none;margin-bottom:24px}
+    .plan-features li{font-size:13px;color:var(--text2);padding:6px 0;border-bottom:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px}
+    .plan.featured .plan-features li{color:var(--blue-100);border-color:rgba(255,255,255,0.08)}
+    .plan-features li::before{content:"✓";color:var(--green);font-weight:700;font-size:12px;flex-shrink:0}
+    .btn-plan{display:block;text-align:center;padding:12px;border-radius:10px;font-size:14px;font-weight:600;background:var(--blue-600);color:#fff;transition:background 0.15s}
+    .btn-plan:hover{background:var(--blue-800)}
+    .plan:not(.featured) .btn-plan{background:var(--gray-50);color:var(--blue-600);border:1px solid rgba(0,0,0,0.1)}
+    .plan:not(.featured) .btn-plan:hover{background:var(--blue-50)}
+
+    /* LGPD */
+    .lgpd{background:var(--blue-50);border-radius:16px;padding:40px;display:flex;gap:32px;align-items:flex-start;margin-top:48px;flex-wrap:wrap}
+    .lgpd-icon{width:52px;height:52px;background:var(--blue-600);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .lgpd h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--blue-900)}
+    .lgpd p{font-size:14px;color:var(--blue-800);line-height:1.7}
+    .lgpd-items{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .lgpd-tag{font-size:12px;font-weight:500;background:#fff;color:var(--blue-800);border:0.5px solid var(--blue-100);padding:4px 12px;border-radius:20px}
+
+    /* CTA */
+    .cta{background:var(--blue-900);padding:80px 5%;text-align:center}
+    .cta h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,3.5vw,42px);color:#fff;margin-bottom:16px}
+    .cta p{font-size:16px;color:var(--blue-100);margin-bottom:36px}
+
+    /* FOOTER */
+    footer{background:#080f1a;padding:48px 5% 32px;color:rgba(255,255,255,0.45);font-size:13px}
+    .footer-inner{max-width:1100px;margin:0 auto}
+    .footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:32px;margin-bottom:40px}
+    .footer-brand .logo-name{color:#fff;font-size:18px}
+    .footer-brand p{font-size:13px;color:rgba(255,255,255,0.4);margin-top:10px;max-width:240px;line-height:1.6}
+    .footer-col h4{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:14px}
+    .footer-col a{display:block;color:rgba(255,255,255,0.55);margin-bottom:8px;font-size:13px;transition:color 0.15s}
+    .footer-col a:hover{color:#fff}
+    .footer-bottom{border-top:0.5px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .footer-bottom a{color:rgba(255,255,255,0.4);font-size:12px}
+    .footer-bottom a:hover{color:#fff}
+
+    @media(max-width:640px){
+      .nav-links{display:none}
+      .hero{padding:72px 5% 60px}
+      .lgpd{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="5" width="12" height="14" rx="2" stroke="#B5D4F4" stroke-width="1.4"/>
+          <path d="M6 5V4C6 2.9 6.9 2 8 2H10C11.1 2 12 2.9 12 4V5" stroke="#B5D4F4" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="16" cy="15" r="4" fill="#1D9E75"/>
+          <path d="M14 15l1.5 1.5L18 13" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="logo-name">Verum<span>doc</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#planos">Planos</a>
+      <a href="#contato">Contato</a>
+      <a href="#" class="btn-nav">Acessar painel</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#B5D4F4" stroke-width="1"/><path d="M4 6l1.5 1.5L8 4" stroke="#B5D4F4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Conforme LGPD · Lei nº 13.709/2018
+  </div>
+  <h1>Gestão de afastamentos médicos <span>simples e segura</span></h1>
+  <p>O Verumdoc digitaliza o processo de envio, análise e aprovação de atestados médicos. Menos papel, mais controle para o RH.</p>
+  <div class="hero-btns">
+    <a href="#planos" class="btn-primary">Começar agora</a>
+    <a href="#como-funciona" class="btn-ghost">Ver como funciona</a>
+  </div>
+  <p class="hero-sub">Sem fidelidade · Cancele quando quiser</p>
+</div>
+
+<!-- CLIENTES -->
+<div class="clients">
+  <div class="clients-inner">
+    <p>Confiado por empresas que valorizam organização e conformidade</p>
+    <div class="clients-logos">
+      <span class="client-logo">Construtora Alpha</span>
+      <span class="client-logo">Grupo Meridian</span>
+      <span class="client-logo">RH Soluções</span>
+      <span class="client-logo">Clínica Integra</span>
+    </div>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="section-inner">
+    <span class="tag">Como funciona</span>
+    <h2>Do atestado ao arquivo em minutos</h2>
+    <p class="section-sub">Um fluxo simples que elimina WhatsApp, e-mail e papel do processo de afastamento.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Funcionário abre o app</h3>
+        <p>Preenche os dados do afastamento e fotografa o atestado diretamente pelo aplicativo — sem precisar imprimir ou digitalizar.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Dados chegam ao RH</h3>
+        <p>Em segundos, a solicitação aparece no painel do RH com todos os dados preenchidos e a foto do atestado disponível para análise.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>RH analisa e decide</h3>
+        <p>O gestor aprova ou recusa a solicitação com um clique, selecionando o motivo em caso de recusa.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Funcionário é notificado</h3>
+        <p>O funcionário recebe uma notificação push imediata com o resultado — sem precisar ligar para o RH ou esperar um e-mail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNCIONALIDADES -->
+<section id="funcionalidades" class="features-bg">
+  <div class="section-inner">
+    <span class="tag">Funcionalidades</span>
+    <h2>Tudo que o RH precisa em um só lugar</h2>
+    <p class="section-sub">Desenvolvido com base nas necessidades reais dos departamentos de Recursos Humanos.</p>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon" style="background:#E6F1FB">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="2" width="14" height="18" rx="2.5" stroke="#185FA5" stroke-width="1.4"/><path d="M7 8h8M7 11h8M7 14h5" stroke="#185FA5" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Captura de atestados</h3>
+        <p>Câmera integrada com guia de enquadramento, flash automático e compressão inteligente da imagem — garantindo qualidade com upload rápido.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#E1F5EE">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 12l5 5L19 6" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Aprovação com um clique</h3>
+        <p>O RH aprova ou recusa solicitações diretamente no painel, com seleção de motivo padronizado em caso de recusa e notificação automática.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#FAEEDA">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="14" rx="2.5" stroke="#BA7517" stroke-width="1.4"/><path d="M6 5V4C6 2.9 7.3 2 9 2H13C14.7 2 16 2.9 16 4V5" stroke="#BA7517" stroke-width="1.4"/><path d="M7 11h8M7 14h5" stroke="#BA7517" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Dashboard de relatórios</h3>
+        <p>Gráficos de afastamentos por mês, ranking de funcionários, taxa de aprovação e exportação de relatórios em CSV compatível com Excel.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#E6F1FB">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3L3 7v6c0 5 3.5 9.7 8 11 4.5-1.3 8-6 8-11V7L11 3z" stroke="#185FA5" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 11l2.5 2.5L14 9" stroke="#185FA5" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Conformidade LGPD</h3>
+        <p>Consentimento registrado com data, hora e dispositivo. Dados sensíveis de saúde tratados com base legal adequada e criptografia AES-256.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#E1F5EE">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#1D9E75" stroke-width="1.4"/><path d="M11 7v4l3 3" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Tempo real</h3>
+        <p>Solicitações aparecem no painel do RH em segundos após o envio pelo funcionário. Sem atualização manual, sem atraso.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#FAEEDA">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M18 8l-7-5-7 5v9a1 1 0 001 1h5v-4h2v4h5a1 1 0 001-1V8z" stroke="#BA7517" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Perfis separados</h3>
+        <p>Funcionários acessam apenas os próprios registros. O RH tem visão completa. Cada perfil com permissões específicas e acesso controlado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LGPD -->
+<section>
+  <div class="section-inner">
+    <span class="tag">Segurança e privacidade</span>
+    <h2>Desenvolvido com a LGPD no centro</h2>
+    <p class="section-sub">Atestados médicos são dados sensíveis de saúde. Tratamos isso com a seriedade que merece.</p>
+    <div class="lgpd">
+      <div class="lgpd-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 3L4 8v8c0 6.5 4.5 12.5 10 14 5.5-1.5 10-7.5 10-14V8L14 3z" stroke="#B5D4F4" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M10 14l3 3L18 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <h3>Conformidade com a Lei nº 13.709/2018 (LGPD)</h3>
+        <p>O Verumdoc foi projetado desde o início para estar em conformidade com a Lei Geral de Proteção de Dados. Consentimento expresso, base legal adequada, retenção controlada e direitos dos titulares garantidos.</p>
+        <div class="lgpd-items">
+          <span class="lgpd-tag">Consentimento registrado</span>
+          <span class="lgpd-tag">Criptografia AES-256</span>
+          <span class="lgpd-tag">Retenção por 5 anos (CLT)</span>
+          <span class="lgpd-tag">DPO disponível</span>
+          <span class="lgpd-tag">Firebase certificado ISO 27001</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section id="planos" class="features-bg">
+  <div class="section-inner">
+    <span class="tag">Planos</span>
+    <h2>Simples, transparente, sem surpresas</h2>
+    <p class="section-sub">Preço por empresa, não por funcionário. Escale sem se preocupar com custo adicional.</p>
+    <div class="plans-grid">
+      <div class="plan">
+        <span class="plan-badge">Starter</span>
+        <h3>Para pequenas empresas</h3>
+        <div class="plan-price">R$ 149</div>
+        <div class="plan-period">por mês · até 50 funcionários</div>
+        <ul class="plan-features">
+          <li>App mobile Android e iOS</li>
+          <li>Painel RH web</li>
+          <li>Até 50 funcionários</li>
+          <li>Relatórios básicos</li>
+          <li>Suporte por e-mail</li>
+        </ul>
+        <a href="mailto:contato@verumdoc.com.br" class="btn-plan">Falar com a equipe</a>
+      </div>
+      <div class="plan featured">
+        <span class="plan-badge">Profissional</span>
+        <h3 style="color:#fff">Para médias empresas</h3>
+        <div class="plan-price">R$ 299</div>
+        <div class="plan-period">por mês · até 200 funcionários</div>
+        <ul class="plan-features">
+          <li>Tudo do plano Starter</li>
+          <li>Até 200 funcionários</li>
+          <li>Relatórios avançados + CSV</li>
+          <li>Notificações push</li>
+          <li>Suporte prioritário</li>
+          <li>SLA de disponibilidade</li>
+        </ul>
+        <a href="mailto:contato@verumdoc.com.br" class="btn-plan">Começar agora</a>
+      </div>
+      <div class="plan">
+        <span class="plan-badge">Enterprise</span>
+        <h3>Para grandes empresas</h3>
+        <div class="plan-price">Sob consulta</div>
+        <div class="plan-period">funcionários ilimitados</div>
+        <ul class="plan-features">
+          <li>Tudo do plano Profissional</li>
+          <li>Funcionários ilimitados</li>
+          <li>Integração com sistemas RH</li>
+          <li>Customização da plataforma</li>
+          <li>Suporte dedicado</li>
+          <li>Contrato com SLA</li>
+        </ul>
+        <a href="mailto:contato@verumdoc.com.br" class="btn-plan">Solicitar proposta</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta" id="contato">
+  <div style="max-width:600px;margin:0 auto">
+    <h2>Pronto para digitalizar o RH da sua empresa?</h2>
+    <p>Entre em contato e agende uma demonstração gratuita. Implementação em menos de 24 horas.</p>
+    <a href="mailto:contato@verumdoc.com.br" class="btn-primary" style="display:inline-block">contato@verumdoc.com.br</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="margin-bottom:10px">
+          <div class="logo-icon" style="width:28px;height:28px;border-radius:8px">
+            <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
+              <rect x="2" y="5" width="12" height="14" rx="2" stroke="#B5D4F4" stroke-width="1.4"/>
+              <path d="M6 5V4C6 2.9 6.9 2 8 2H10C11.1 2 12 2.9 12 4V5" stroke="#B5D4F4" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="16" cy="15" r="4" fill="#1D9E75"/>
+              <path d="M14 15l1.5 1.5L18 13" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="logo-name">Verum<span>doc</span></span>
+        </div>
+        <p>Gestão de documentos médicos simples, segura e em conformidade com a LGPD.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produto</h4>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#planos">Planos e preços</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="/privacidade">Política de privacidade</a>
+        <a href="/termos">Termos de uso</a>
+        <a href="mailto:privacidade@verumdoc.com.br">Contato LGPD</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a href="mailto:contato@verumdoc.com.br">contato@verumdoc.com.br</a>
+        <a href="mailto:suporte@verumdoc.com.br">suporte@verumdoc.com.br</a>
+        <a href="mailto:privacidade@verumdoc.com.br">privacidade@verumdoc.com.br</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Verumdoc. Todos os direitos reservados.</span>
+      <div style="display:flex;gap:20px">
+        <a href="/privacidade">Privacidade</a>
+        <a href="/termos">Termos</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
