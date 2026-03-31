@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastrar empresa — Verumdoc</title>
+  <meta name="description" content="Crie sua conta no Verumdoc e comece a gerenciar afastamentos médicos da sua empresa em minutos."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --blue-900:#042C53;--blue-800:#0C447C;--blue-600:#185FA5;
+      --blue-400:#378ADD;--blue-100:#B5D4F4;--blue-50:#E6F1FB;
+      --green:#1D9E75;--green-50:#E1F5EE;
+      --red:#E24B4A;--red-50:#FCEBEB;
+      --gray-50:#F7F7F5;--gray-200:#B4B2A9;
+      --text:#1A1A1A;--text2:#4A4A4A;--text3:#6B6B6B;
+      --border:rgba(0,0,0,0.12);
+    }
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--gray-50);-webkit-font-smoothing:antialiased;min-height:100vh}
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    nav{background:#fff;border-bottom:0.5px solid var(--border);padding:0 5%}
+    .nav-inner{max-width:1100px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo-icon{width:34px;height:34px;background:var(--blue-600);border-radius:9px;display:flex;align-items:center;justify-content:center}
+    .logo-name{font-family:'DM Serif Display',serif;font-size:19px;color:var(--blue-900)}
+    .logo-name span{color:var(--blue-600)}
+    .nav-link{font-size:13px;color:var(--text3)}
+    .nav-link:hover{color:var(--blue-600)}
+
+    /* LAYOUT */
+    .page{min-height:calc(100vh - 60px);display:grid;grid-template-columns:1fr 1fr;max-width:1100px;margin:0 auto;gap:0}
+    
+    /* LADO ESQUERDO */
+    .lado-esq{background:var(--blue-900);padding:64px 56px;display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 60px)}
+    .lado-esq h1{font-family:'DM Serif Display',serif;font-size:36px;color:#fff;line-height:1.2;margin-bottom:16px}
+    .lado-esq h1 span{color:var(--blue-400)}
+    .lado-esq p{font-size:15px;color:var(--blue-100);line-height:1.7;margin-bottom:40px}
+    .beneficios{display:flex;flex-direction:column;gap:16px}
+    .beneficio{display:flex;align-items:flex-start;gap:14px}
+    .beneficio-icon{width:36px;height:36px;border-radius:10px;background:rgba(55,138,221,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+    .beneficio-titulo{font-size:14px;font-weight:600;color:#fff;margin-bottom:3px}
+    .beneficio-sub{font-size:12px;color:var(--blue-100);line-height:1.6}
+    .trial-badge{margin-top:40px;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px}
+    .trial-badge-icon{width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .trial-badge p{font-size:13px;color:#fff;line-height:1.6}
+    .trial-badge strong{color:#5DCAA5}
+
+    /* LADO DIREITO — FORMULÁRIO */
+    .lado-dir{background:#fff;padding:56px 56px;display:flex;flex-direction:column;justify-content:center}
+    .form-titulo{font-size:24px;font-weight:700;color:var(--text);margin-bottom:6px}
+    .form-sub{font-size:14px;color:var(--text3);margin-bottom:32px}
+    .form-secao{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;margin-top:24px;padding-bottom:8px;border-bottom:0.5px solid var(--border)}
+    .campo{margin-bottom:14px}
+    .campo label{display:block;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.06em;margin-bottom:5px}
+    .campo input{width:100%;height:44px;border:0.5px solid var(--border);border-radius:9px;padding:0 13px;font-size:14px;color:var(--text);font-family:inherit;background:var(--gray-50);transition:border-color 0.15s,box-shadow 0.15s;outline:none}
+    .campo input:focus{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(55,138,221,0.12);background:#fff}
+    .campo input.erro{border-color:var(--red);box-shadow:0 0 0 3px rgba(226,75,74,0.1)}
+    .campo-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .senha-wrap{position:relative}
+    .senha-wrap input{padding-right:44px}
+    .btn-ver-senha{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;display:flex;align-items:center}
+    .btn-enviar{width:100%;height:48px;background:var(--blue-600);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:background 0.15s;margin-top:8px}
+    .btn-enviar:hover{background:var(--blue-800)}
+    .btn-enviar:disabled{opacity:0.7;cursor:not-allowed}
+    .erro-box{background:var(--red-50);border:0.5px solid var(--red);border-radius:9px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#791F1F}
+    .sucesso-box{background:var(--green-50);border:0.5px solid var(--green);border-radius:12px;padding:24px;text-align:center;display:none}
+    .sucesso-icon{width:56px;height:56px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+    .sucesso-titulo{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px}
+    .sucesso-sub{font-size:14px;color:var(--text3);line-height:1.6;margin-bottom:20px}
+    .btn-acessar{display:inline-block;background:var(--blue-600);color:#fff;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none}
+    .ja-tem{text-align:center;font-size:13px;color:var(--text3);margin-top:20px}
+    .ja-tem a{color:var(--blue-600);font-weight:600}
+    .forca-senha{height:4px;border-radius:2px;margin-top:6px;transition:all 0.3s}
+    .forca-label{font-size:11px;margin-top:4px}
+
+    @media(max-width:768px){
+      .page{grid-template-columns:1fr}
+      .lado-esq{display:none}
+      .lado-dir{padding:32px 24px}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="5" width="12" height="14" rx="2" stroke="#B5D4F4" strokeWidth="1.4"/>
+          <path d="M6 5V4C6 2.9 6.9 2 8 2H10C11.1 2 12 2.9 12 4V5" stroke="#B5D4F4" strokeWidth="1.4" stroke-linecap="round"/>
+          <circle cx="16" cy="15" r="4" fill="#1D9E75"/>
+          <path d="M14 15l1.5 1.5L18 13" stroke="white" strokeWidth="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="logo-name">Verum<span>doc</span></span>
+    </a>
+    <a href="/" class="nav-link">← Voltar ao site</a>
+  </div>
+</nav>
+
+<div class="page">
+  <!-- Lado esquerdo -->
+  <div class="lado-esq">
+    <h1>Comece a usar o <span>Verumdoc</span> hoje</h1>
+    <p>Configure sua empresa em menos de 2 minutos. Sem cartão de crédito, sem burocracia.</p>
+
+    <div class="beneficios">
+      <div class="beneficio">
+        <div class="beneficio-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9l5 5L16 4" stroke="#378ADD" strokeWidth="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <p class="beneficio-titulo">App mobile para funcionários</p>
+          <p class="beneficio-sub">Funcionários enviam atestados pelo celular em segundos, sem papel.</p>
+        </div>
+      </div>
+      <div class="beneficio">
+        <div class="beneficio-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9l5 5L16 4" stroke="#378ADD" strokeWidth="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <p class="beneficio-titulo">Painel RH em tempo real</p>
+          <p class="beneficio-sub">Aprove ou recuse atestados com um clique, de qualquer lugar.</p>
+        </div>
+      </div>
+      <div class="beneficio">
+        <div class="beneficio-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9l5 5L16 4" stroke="#378ADD" strokeWidth="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <p class="beneficio-titulo">Conformidade com a LGPD</p>
+          <p class="beneficio-sub">Consentimento registrado, dados criptografados e retenção controlada.</p>
+        </div>
+      </div>
+      <div class="beneficio">
+        <div class="beneficio-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9l5 5L16 4" stroke="#378ADD" strokeWidth="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <p class="beneficio-titulo">Relatórios e métricas</p>
+          <p class="beneficio-sub">Acompanhe taxas de aprovação, dias afastados e muito mais.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="trial-badge">
+      <div class="trial-badge-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9l5 5L16 4" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <p><strong>14 dias grátis</strong> — sem cartão de crédito. Cancele quando quiser.</p>
+    </div>
+  </div>
+
+  <!-- Lado direito — Formulário -->
+  <div class="lado-dir">
+    <div id="form-area">
+      <p class="form-titulo">Criar conta gratuita</p>
+      <p class="form-sub">Preencha os dados abaixo para começar</p>
+
+      <div id="erro-box" class="erro-box" style="display:none"></div>
+
+      <p class="form-secao">Dados da empresa</p>
+      <div class="campo">
+        <label>NOME DA EMPRESA *</label>
+        <input type="text" id="nomeEmpresa" placeholder="Ex: Construtora Alpha Ltda" />
+      </div>
+      <div class="campo">
+        <label>CNPJ <span style="font-size:10px;color:var(--gray-200);font-weight:400">(opcional)</span></label>
+        <input type="text" id="cnpj" placeholder="00.000.000/0001-00" maxlength="18" />
+      </div>
+
+      <p class="form-secao">Responsável pelo RH</p>
+      <div class="campo-row">
+        <div class="campo">
+          <label>NOME COMPLETO *</label>
+          <input type="text" id="nomeRH" placeholder="Nome e sobrenome" />
+        </div>
+        <div class="campo">
+          <label>E-MAIL CORPORATIVO *</label>
+          <input type="email" id="email" placeholder="rh@empresa.com.br" />
+        </div>
+      </div>
+
+      <p class="form-secao">Acesso</p>
+      <div class="campo">
+        <label>SENHA *</label>
+        <div class="senha-wrap">
+          <input type="password" id="senha" placeholder="Mínimo 8 caracteres" oninput="verificarSenha()" />
+          <button class="btn-ver-senha" onclick="toggleSenha('senha', this)" type="button">👁️</button>
+        </div>
+        <div class="forca-senha" id="forca-bar" style="background:var(--border)"></div>
+        <p class="forca-label" id="forca-label" style="color:var(--text3)"></p>
+      </div>
+      <div class="campo">
+        <label>CONFIRMAR SENHA *</label>
+        <div class="senha-wrap">
+          <input type="password" id="confirmarSenha" placeholder="Repita a senha" />
+          <button class="btn-ver-senha" onclick="toggleSenha('confirmarSenha', this)" type="button">👁️</button>
+        </div>
+      </div>
+
+      <div style="background:var(--blue-50);border-radius:9px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--blue-800);line-height:1.6">
+        Ao criar sua conta você concorda com os 
+        <a href="/termos" style="color:var(--blue-600);font-weight:600">Termos de Uso</a> e a 
+        <a href="/privacidade" style="color:var(--blue-600);font-weight:600">Política de Privacidade</a> do Verumdoc.
+      </div>
+
+      <button class="btn-enviar" id="btn-enviar" onclick="cadastrar()">
+        Criar conta gratuita
+      </button>
+
+      <p class="ja-tem">
+        Já tem conta? <a href="https://app.verumdoc.com.br">Acessar painel</a>
+      </p>
+    </div>
+
+    <!-- Tela de sucesso -->
+    <div class="sucesso-box" id="sucesso-box">
+      <div class="sucesso-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 14l8 8L24 6" stroke="white" strokeWidth="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <p class="sucesso-titulo">Conta criada com sucesso! 🎉</p>
+      <p class="sucesso-sub">
+        Sua empresa foi cadastrada no Verumdoc. Acesse o painel RH para começar a convidar seus funcionários.
+      </p>
+      <a href="https://app.verumdoc.com.br" class="btn-acessar">Acessar painel RH</a>
+      <p style="font-size:12px;color:var(--text3);margin-top:16px">
+        Um e-mail de boas-vindas foi enviado para <strong id="email-confirmado"></strong>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = "https://verumdoc-backend-production.up.railway.app/api";
+
+  function toggleSenha(id, btn) {
+    const input = document.getElementById(id);
+    const mostrar = input.type === "password";
+    input.type = mostrar ? "text" : "password";
+    btn.textContent = mostrar ? "🙈" : "👁️";
+  }
+
+  function verificarSenha() {
+    const senha = document.getElementById("senha").value;
+    const bar   = document.getElementById("forca-bar");
+    const label = document.getElementById("forca-label");
+
+    if (!senha) { bar.style.background = "var(--border)"; bar.style.width = "100%"; label.textContent = ""; return; }
+
+    let forca = 0;
+    if (senha.length >= 8) forca++;
+    if (/[A-Z]/.test(senha)) forca++;
+    if (/[0-9]/.test(senha)) forca++;
+    if (/[^A-Za-z0-9]/.test(senha)) forca++;
+
+    const cores  = ["#E24B4A", "#E24B4A", "#EF9F27", "#1D9E75", "#1D9E75"];
+    const labels = ["", "Fraca", "Fraca", "Média", "Forte"];
+    const widths = ["0%", "25%", "50%", "75%", "100%"];
+
+    bar.style.background = cores[forca];
+    bar.style.width = widths[forca];
+    label.textContent = labels[forca];
+    label.style.color = cores[forca];
+  }
+
+  function formatarCNPJ(v) {
+    v = v.replace(/\D/g, "");
+    v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+    v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+    v = v.replace(/(\d{4})(\d)/, "$1-$2");
+    return v.slice(0, 18);
+  }
+
+  document.getElementById("cnpj").addEventListener("input", function() {
+    this.value = formatarCNPJ(this.value);
+  });
+
+  function mostrarErro(msg) {
+    const box = document.getElementById("erro-box");
+    box.textContent = msg;
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function esconderErro() {
+    document.getElementById("erro-box").style.display = "none";
+  }
+
+  async function cadastrar() {
+    esconderErro();
+
+    const nomeEmpresa    = document.getElementById("nomeEmpresa").value.trim();
+    const cnpj           = document.getElementById("cnpj").value.trim();
+    const nomeRH         = document.getElementById("nomeRH").value.trim();
+    const email          = document.getElementById("email").value.trim();
+    const senha          = document.getElementById("senha").value;
+    const confirmarSenha = document.getElementById("confirmarSenha").value;
+
+    if (!nomeEmpresa) { mostrarErro("Informe o nome da empresa."); return; }
+    if (!nomeRH)      { mostrarErro("Informe o nome do responsável pelo RH."); return; }
+    if (!email)       { mostrarErro("Informe o e-mail corporativo."); return; }
+    if (!senha || senha.length < 8) { mostrarErro("A senha deve ter pelo menos 8 caracteres."); return; }
+    if (senha !== confirmarSenha)   { mostrarErro("As senhas não coincidem."); return; }
+
+    const btn = document.getElementById("btn-enviar");
+    btn.disabled = true;
+    btn.textContent = "Criando conta...";
+
+    try {
+      const res = await fetch(`${API}/auth/cadastro`, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ nomeEmpresa, cnpj: cnpj || undefined, nomeRH, email, senha }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        mostrarErro(data.erro || "Erro ao criar conta. Tente novamente.");
+        btn.disabled = false;
+        btn.textContent = "Criar conta gratuita";
+        return;
+      }
+
+      // Salvar token
+      localStorage.setItem("verumdoc-token", data.token);
+
+      // Mostrar tela de sucesso
+      document.getElementById("form-area").style.display = "none";
+      document.getElementById("sucesso-box").style.display = "block";
+      document.getElementById("email-confirmado").textContent = email;
+
+    } catch {
+      mostrarErro("Erro de conexão. Verifique sua internet e tente novamente.");
+      btn.disabled = false;
+      btn.textContent = "Criar conta gratuita";
+    }
+  }
+</script>
+</body>
+</html>
