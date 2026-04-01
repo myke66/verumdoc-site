@@ -6,26 +6,28 @@
   <title>Cadastrar empresa — Verumdoc</title>
   <meta name="description" content="Crie sua conta no Verumdoc e comece a gerenciar afastamentos médicos da sua empresa em minutos."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     :root{
+      --primary:#2F4A66;--primary-h:#3F5F80;--primary-soft:#E8EEF5;
       --blue-900:#2F4A66;--blue-800:#3F5F80;--blue-600:#2F4A66;
-      --blue-400:#378ADD;--blue-100:#B5D4F4;--blue-50:#E6F1FB;
-      --green:#1D9E75;--green-50:#E1F5EE;
-      --red:#E24B4A;--red-50:#FCEBEB;
-      --gray-50:#F7F7F5;--gray-200:#B4B2A9;
-      --text:#1A1A1A;--text2:#4A4A4A;--text3:#6B6B6B;
-      --border:rgba(0,0,0,0.12);
+      --blue-400:#5B80A0;--blue-100:#C8D9E8;--blue-50:#E8EEF5;
+      --green:#2E7D52;--green-50:#EDFAF3;
+      --red:#DC2626;--red-50:#FEF2F2;
+      --gray-50:#F8FAFC;--gray-200:#7A8A99;
+      --text:#1F2A37;--text2:#4A5568;--text3:#7A8A99;
+      --border:#E2E8F0;
+      --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
     }
-    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--gray-50);-webkit-font-smoothing:antialiased;min-height:100vh}
+    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--gray-50);-webkit-font-smoothing:antialiased;min-height:100vh;line-height:1.6}
     a{text-decoration:none;color:inherit}
 
     /* NAV */
-    nav{background:#fff;border-bottom:0.5px solid var(--border);padding:0 5%}
+    nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5%;box-shadow:0 1px 0 var(--border)}
     .nav-inner{max-width:1100px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between}
     .logo{display:flex;align-items:center;gap:10px}
-    .logo-icon{width:34px;height:34px;background:var(--blue-600);border-radius:9px;display:flex;align-items:center;justify-content:center}
+    .logo-icon{width:34px;height:34px;border-radius:9px;overflow:hidden;flex-shrink:0}
     .logo-name{font-family:'DM Serif Display',serif;font-size:19px;color:var(--blue-900)}
     .logo-name span{color:var(--blue-600)}
     .nav-link{font-size:13px;color:var(--text3)}
@@ -35,9 +37,9 @@
     .page{min-height:calc(100vh - 60px);display:grid;grid-template-columns:1fr 1fr;max-width:1100px;margin:0 auto;gap:0}
     
     /* LADO ESQUERDO */
-    .lado-esq{background:var(--blue-900);padding:64px 56px;display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 60px)}
-    .lado-esq h1{font-family:'DM Serif Display',serif;font-size:36px;color:#fff;line-height:1.2;margin-bottom:16px}
-    .lado-esq h1 span{color:var(--blue-400)}
+    .lado-esq{background:linear-gradient(160deg,#1A2535 0%,var(--primary) 70%);padding:64px 56px;display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 60px)}
+    .lado-esq h1{font-size:34px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:16px;letter-spacing:-.02em}
+    .lado-esq h1 em{font-style:normal;color:rgba(255,255,255,.65)}
     .lado-esq p{font-size:15px;color:var(--blue-100);line-height:1.7;margin-bottom:40px}
     .beneficios{display:flex;flex-direction:column;gap:16px}
     .beneficio{display:flex;align-items:flex-start;gap:14px}
@@ -56,17 +58,17 @@
     .form-secao{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;margin-top:24px;padding-bottom:8px;border-bottom:0.5px solid var(--border)}
     .campo{margin-bottom:14px}
     .campo label{display:block;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.06em;margin-bottom:5px}
-    .campo input{width:100%;height:44px;border:0.5px solid var(--border);border-radius:9px;padding:0 13px;font-size:14px;color:var(--text);font-family:inherit;background:var(--gray-50);transition:border-color 0.15s,box-shadow 0.15s;outline:none}
-    .campo input:focus{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(55,138,221,0.12);background:#fff}
+    .campo input{width:100%;height:44px;border:1px solid var(--border);border-radius:9px;padding:0 14px;font-size:14px;color:var(--text);font-family:inherit;background:#fff;transition:border-color .15s,box-shadow .15s;outline:none}
+    .campo input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(47,74,102,.1);background:#fff}
     .campo input.erro{border-color:var(--red);box-shadow:0 0 0 3px rgba(226,75,74,0.1)}
     .campo-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .senha-wrap{position:relative}
     .senha-wrap input{padding-right:44px}
-    .btn-ver-senha{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;display:flex;align-items:center}
-    .btn-enviar{width:100%;height:48px;background:var(--blue-600);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:background 0.15s;margin-top:8px}
-    .btn-enviar:hover{background:var(--blue-800)}
+    .btn-ver-senha{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);display:flex;align-items:center;padding:4px;border-radius:4px;transition:color .15s}.btn-ver-senha:hover{color:var(--primary)}
+    .btn-enviar{width:100%;height:50px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .15s;margin-top:10px;letter-spacing:-.01em}
+    .btn-enviar:hover{background:var(--primary-h);box-shadow:0 4px 14px rgba(47,74,102,.3);transform:translateY(-1px)}
     .btn-enviar:disabled{opacity:0.7;cursor:not-allowed}
-    .erro-box{background:var(--red-50);border:0.5px solid var(--red);border-radius:9px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#791F1F}
+    .erro-box{background:var(--red-50);border:1px solid #FECACA;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#7F1D1D;display:flex;align-items:center;gap:8px}
     .sucesso-box{background:var(--green-50);border:0.5px solid var(--green);border-radius:12px;padding:24px;text-align:center;display:none}
     .sucesso-icon{width:56px;height:56px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
     .sucesso-titulo{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px}
