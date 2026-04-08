@@ -164,9 +164,24 @@
         <label>NOME DA EMPRESA *</label>
         <input type="text" id="nomeEmpresa" placeholder="Ex: Construtora Alpha Ltda" />
       </div>
+      <div class="campo-row">
+        <div class="campo">
+          <label>CPF / CNPJ *</label>
+          <input type="text" id="cpfCnpj" placeholder="000.000.000-00" maxlength="18" />
+        </div>
+        <div class="campo">
+          <label>CNPJ <span style="font-size:10px;color:var(--gray-200);font-weight:400">(opcional)</span></label>
+          <input type="text" id="cnpj" placeholder="00.000.000/0001-00" maxlength="18" />
+        </div>
+      </div>
+
       <div class="campo">
-        <label>CNPJ <span style="font-size:10px;color:var(--gray-200);font-weight:400">(opcional)</span></label>
-        <input type="text" id="cnpj" placeholder="00.000.000/0001-00" maxlength="18" />
+        <label>PLANO *</label>
+        <select id="plano" style="width:100%;height:44px;border:1px solid var(--border);border-radius:9px;padding:0 14px;font-size:14px;font-family:inherit;background:#fff;color:var(--text);outline:none;cursor:pointer">
+          <option value="starter">Starter — R$ 149,99/mês · até 30 funcionários</option>
+          <option value="profissional" selected>Profissional — R$ 279,99/mês · até 120 funcionários</option>
+          <option value="enterprise">Enterprise — Sob consulta</option>
+        </select>
       </div>
 
       <p class="form-secao">Responsável pelo RH</p>
@@ -221,11 +236,11 @@
       </div>
       <p class="sucesso-titulo">Conta criada com sucesso! 🎉</p>
       <p class="sucesso-sub">
-        Sua empresa foi cadastrada no Verumdoc. Acesse o painel RH para começar a convidar seus funcionários.
+        Sua empresa foi cadastrada no Verumdoc. Você receberá o boleto da primeira mensalidade por e-mail. Acesse o painel para começar.
       </p>
       <a href="https://app.verumdoc.com.br" class="btn-acessar">Acessar painel RH</a>
       <p style="font-size:12px;color:var(--text3);margin-top:16px">
-        Um e-mail de boas-vindas foi enviado para <strong id="email-confirmado"></strong>
+        Boleto e e-mail de boas-vindas enviados para <strong id="email-confirmado"></strong>
       </p>
     </div>
   </div>
@@ -292,13 +307,18 @@
     esconderErro();
 
     const nomeEmpresa    = document.getElementById("nomeEmpresa").value.trim();
+    const cpfCnpj        = document.getElementById("cpfCnpj").value.trim().replace(/\D/g, "");
     const cnpj           = document.getElementById("cnpj").value.trim();
+    const plano          = document.getElementById("plano").value;
     const nomeRH         = document.getElementById("nomeRH").value.trim();
     const email          = document.getElementById("email").value.trim();
     const senha          = document.getElementById("senha").value;
     const confirmarSenha = document.getElementById("confirmarSenha").value;
 
     if (!nomeEmpresa) { mostrarErro("Informe o nome da empresa."); return; }
+    if (!cpfCnpj)     { mostrarErro("Informe o CPF ou CNPJ para pagamento."); return; }
+    if (cpfCnpj.length < 11) { mostrarErro("CPF ou CNPJ inválido."); return; }
+    if (plano === "enterprise") { mostrarErro("Para o plano Enterprise, entre em contato: contato@verumdoc.com.br"); return; }
     if (!nomeRH)      { mostrarErro("Informe o nome do responsável pelo RH."); return; }
     if (!email)       { mostrarErro("Informe o e-mail corporativo."); return; }
     if (!senha || senha.length < 8) { mostrarErro("A senha deve ter pelo menos 8 caracteres."); return; }
@@ -312,7 +332,7 @@
       const res = await fetch(`${API}/auth/cadastro`, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ nomeEmpresa, cnpj: cnpj || undefined, nomeRH, email, senha }),
+        body:    JSON.stringify({ nomeEmpresa, cpfCnpj, cnpj: cnpj || undefined, plano, nomeRH, email, senha }),
       });
 
       const data = await res.json();
@@ -326,6 +346,7 @@
 
       // Salvar token
       localStorage.setItem("verumdoc-token", data.token);
+      localStorage.setItem("verumdoc-api-v2", "true");
 
       // Mostrar tela de sucesso
       document.getElementById("form-area").style.display = "none";
