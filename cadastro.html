@@ -234,13 +234,18 @@
       <div class="sucesso-icon">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 14l8 8L24 6" stroke="white" strokeWidth="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <p class="sucesso-titulo">Conta criada com sucesso! 🎉</p>
+      <p class="sucesso-titulo">Conta criada! Finalize o pagamento 🎉</p>
       <p class="sucesso-sub">
-        Sua empresa foi cadastrada no Verumdoc. Você receberá o boleto da primeira mensalidade por e-mail. Acesse o painel para começar.
+        Sua empresa foi cadastrada. Clique abaixo para pagar via Pix ou Cartão e ativar seu acesso imediatamente.
       </p>
-      <a href="https://app.verumdoc.com.br" class="btn-acessar">Acessar painel RH</a>
+      <a id="link-pagamento" href="#" target="_blank" class="btn-acessar" style="display:none;background:#2F4A66;color:#fff;margin-bottom:12px">
+        💳 Pagar agora (Pix ou Cartão)
+      </a>
+      <a href="https://app.verumdoc.com.br" class="btn-acessar" style="background:var(--gray-50);color:var(--blue-600);border:1px solid var(--border)">
+        Acessar painel RH
+      </a>
       <p style="font-size:12px;color:var(--text3);margin-top:16px">
-        Boleto e e-mail de boas-vindas enviados para <strong id="email-confirmado"></strong>
+        Confirmação enviada para <strong id="email-confirmado"></strong>
       </p>
     </div>
   </div>
@@ -348,10 +353,18 @@
       localStorage.setItem("verumdoc-token", data.token);
       localStorage.setItem("verumdoc-api-v2", "true");
 
-      // Mostrar tela de sucesso
-      document.getElementById("form-area").style.display = "none";
-      document.getElementById("sucesso-box").style.display = "block";
-      document.getElementById("email-confirmado").textContent = email;
+      // Redirecionar para pagamento se houver link
+      if (data.linkPagamento) {
+        document.getElementById("form-area").style.display = "none";
+        document.getElementById("sucesso-box").style.display = "block";
+        document.getElementById("email-confirmado").textContent = email;
+        document.getElementById("link-pagamento").href = data.linkPagamento;
+        document.getElementById("link-pagamento").style.display = "inline-block";
+      } else {
+        document.getElementById("form-area").style.display = "none";
+        document.getElementById("sucesso-box").style.display = "block";
+        document.getElementById("email-confirmado").textContent = email;
+      }
 
     } catch {
       mostrarErro("Erro de conexão. Verifique sua internet e tente novamente.");
