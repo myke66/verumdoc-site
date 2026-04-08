@@ -258,7 +258,10 @@
     const input = document.getElementById(id);
     const mostrar = input.type === "password";
     input.type = mostrar ? "text" : "password";
-    btn.textContent = mostrar ? "🙈" : "👁️";
+    const eyeOn  = btn.querySelector(".eye-on");
+    const eyeOff = btn.querySelector(".eye-off");
+    if (eyeOn)  eyeOn.style.display  = mostrar ? "none"  : "block";
+    if (eyeOff) eyeOff.style.display = mostrar ? "block" : "none";
   }
 
   function verificarSenha() {
